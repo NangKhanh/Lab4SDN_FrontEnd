@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import './Login.css'; // Import file CSS tùy chỉnh
-import {Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Login() {
@@ -41,36 +41,35 @@ function Login() {
   return (
     <div>
       <Form onSubmit={handleSubmit} className="registration-form">
-      <h1>Đăng nhập</h1>
-      <Form.Group controlId="email">
-        <Form.Label>Email: </Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+        <h1>Đăng nhập</h1>
+        <Form.Group controlId="email">
+          <Form.Label>Email: </Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
 
-      <Form.Group controlId="password">
-        <Form.Label>Password: </Form.Label>
-        <Form.Control
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+        <Form.Group controlId="password">
+          <Form.Label>Password: </Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Đăng Nhập
-      </Button>
-    </Form>
-    <Link to="/register">
-    <Button variant="primary" type="submit">
-            Đăng ký
-          </Button>
-    </Link>
+        <Link to="/register" variant="body2">
+          Bạn chưa có tài khoản? Đăng ký
+        </Link>
+
+        <Button variant="primary" type="submit">
+          Đăng Nhập
+        </Button>
+      </Form>
     </div>
   );
 }

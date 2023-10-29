@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Form, Button } from 'react-bootstrap'; const ProductCard = () => {
+import { Form, Button } from 'react-bootstrap';
+import './detail.css'
+
+const ProductCard = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [products, setProducts] = useState({});
   const [comments, setComments] = useState([]);
   const userData = JSON.parse(localStorage.getItem('userData')).data;
-  console.log("test"+userData._id);
-  
+  console.log("test" + userData._id);
+
   useEffect(() => {
     // Gửi yêu cầu GET đến URL cụ thể dựa trên `id`
     axios.get(`http://localhost:9999/products/${id}`)
@@ -41,8 +44,8 @@ import { Form, Button } from 'react-bootstrap'; const ProductCard = () => {
 
     try {
       console.log(formData);
-       const response = await axios.post(`http://localhost:9999/users/${userData._id}/comment`, formData);
-       window.location.reload();
+      const response = await axios.post(`http://localhost:9999/users/${userData._id}/comment`, formData);
+      window.location.reload();
       // console.log(JSON.parse(localStorage.getItem('userData')));
     } catch (error) {
       console.error('Lỗi khi gọi API:', error);
@@ -68,45 +71,58 @@ import { Form, Button } from 'react-bootstrap'; const ProductCard = () => {
           <p>Discount: {products.discountPercentage}%</p>
           <p>Stock: {products.stock}</p>
           <p>Brand: {products.brand}</p>
+          <img src={products.thumbnail} alt={products.name} style={{ maxWidth: '100px' }} />
         </Col>
       </Row>
+
       <Row>
         <Col>
-        <Form onSubmit={handleSubmit} className="registration-form">
-      <Form.Group controlId="title">
-        <Form.Label>Title: </Form.Label>
-        <Form.Control
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+          <Form onSubmit={handleSubmit} className="registration-form">
+            {comments.map(comment => (
+              <div className="comment-container comment-box">
+                <form className="cmt-card">
+                  <div className="cmt-footer">
+                    <img src="https://facebookninja.vn/wp-content/uploads/2023/06/anh-dai-dien-mac-dinh-zalo.jpg"/>
+                    <span>{comment.user.username}:</span>
+                    <p className="comment-body">{comment.body}</p>
+                  </div>
+                </form>
+              </div>
 
-      <Form.Group controlId="body">
-        <Form.Label>Body: </Form.Label>
-        <Form.Control
-          type="text"
-          name="body"
-          value={formData.body}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Comment
-      </Button>
-    </Form>
-          {comments.map(comment => (
-            <div key={comment._id}>
-              {/* <p>Title :{comment.title}</p> */}
-              <p>{comment.user.username}: {comment.body}</p>
-            </div>
-          ))}
+            ))}
+            <Form.Group controlId="title">
+              <Form.Label>Title: </Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="body">
+              <Form.Label>Body: </Form.Label>
+              <Form.Control
+                type="text"
+                name="body"
+                value={formData.body}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Comment
+            </Button>
+          </Form>
+
+
         </Col>
       </Row>
     </Container>
   );
 };
+
+
 
 export default ProductCard;

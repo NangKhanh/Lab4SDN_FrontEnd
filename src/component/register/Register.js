@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import './Register.css'; // Import file CSS tùy chỉnh
-import {useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Register() {
@@ -68,6 +68,10 @@ function Register() {
           onChange={handleInputChange}
         />
       </Form.Group>
+
+      <Link to="/" variant="body2">
+          Bạn đã có tài khoản? Đăng nhập
+        </Link>
 
       <Button variant="primary" type="submit">
         Đăng ký
