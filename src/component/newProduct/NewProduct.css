@@ -1,0 +1,32 @@
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    margin: 20px;
+  }
+  
+  .form-column {
+    width: 48%; 
+    margin-right: 20px; 
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .add-button {
+    width: 10%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;   
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-button:hover {
+    background-color: #0056b3;
+  }
+  
