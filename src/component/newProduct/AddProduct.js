@@ -12,26 +12,53 @@ function AddProductForm() {
     discountPercentage: 0,
     stock: 0,
     brand: '',
-    thumbnail: '',
+    image: '',
   });
 
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
+    const { name, value, files } = e.target;
+  
+    if (name === 'image') {
+      const imageFiles = Array.from(files);
+      setProduct({ ...product, [name]: imageFiles });
+    } else {
+      setProduct({ ...product, [name]: value });
+    }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    axios.post('http://localhost:9999/products', product)
+  
+    const formData = new FormData();
+  
+    // Thêm các tệp hình ảnh đã chọn vào FormData
+    product.image.forEach((imageFile, index) => {
+      formData.append('image', imageFile, `image-${index}`);
+    });
+  
+    // Thêm các trường dữ liệu khác vào FormData
+    for (const key in product) {
+      if (key !== 'image') {
+        formData.append(key, product[key]);
+      }
+    }
+  
+    axios.post('http://localhost:9999/products', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
       .then(response => {
         navigate('/products')
       })
       .catch(error => {
+        // Xử lý lỗi
       });
   };
+  
 
   return (
     <div>
@@ -88,10 +115,11 @@ function AddProductForm() {
           />
 
           <input
-            type="text"
-            name="thumbnail"
-            placeholder="Thumbnail"
+            type="file"
+            name="image"
+            placeholder="image"
             value={product.thumbnail}
+            multiple
             onChange={handleInputChange}
           />
         </div>

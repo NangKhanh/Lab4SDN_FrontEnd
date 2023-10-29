@@ -16,7 +16,7 @@ const ProductCard = () => {
   useEffect(() => {
     // Gửi yêu cầu GET đến URL cụ thể dựa trên `id`
     axios.get(`http://localhost:9999/products/${id}`)
-      .then(response => setProducts(response.data.data))
+      .then(response => setProducts(response.data.data[0]))
       .catch(error => console.error(error));
   }, [id]);
   useEffect(() => {
@@ -55,11 +55,9 @@ const ProductCard = () => {
     <Container>
       <Row>
         <Col md={4}>
-          {products.image && products.image.length > 0 && (
+          {products.images && products.images.length > 0 && (
             <div>
-              <img src={products.image[0].url} alt={products.name} style={{ maxWidth: '100%' }} />
-              <br />
-              <h2>Caption : {products.image[0].caption}</h2>
+              <img src={products.images[1].path} alt={products.name} style={{ maxWidth: '100%' }} />
             </div>
           )}
         </Col>
@@ -71,7 +69,6 @@ const ProductCard = () => {
           <p>Discount: {products.discountPercentage}%</p>
           <p>Stock: {products.stock}</p>
           <p>Brand: {products.brand}</p>
-          <img src={products.thumbnail} alt={products.name} style={{ maxWidth: '100px' }} />
         </Col>
       </Row>
 

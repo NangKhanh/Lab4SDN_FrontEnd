@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
-import './ProductTable.css'; 
+import './ProductTable.css';
 import { Link } from 'react-router-dom';
 
 function ProductTable() {
@@ -31,7 +31,7 @@ function ProductTable() {
             <th>Discount Percentage</th>
             <th>Stock</th>
             <th>Brand</th>
-            <th>Thumbnail</th>
+            <th>Image</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -45,11 +45,13 @@ function ProductTable() {
               <td>{product.stock}</td>
               <td>{product.brand}</td>
               <td>
-                <img src={product.thumbnail} alt={product.name} style={{ maxWidth: '100px' }} />
+                {product.images && product.images.length > 0 && (
+                    <img src={product.images[0].path} alt={product.name} style={{ maxWidth: '100%' }} />
+                )}
               </td>
               <td><Link to={`/product/${product._id}`}>
-                  <button >View detail</button><br />
-                </Link><br />
+                <button >View detail</button><br />
+              </Link><br />
                 <button>Add to Cart</button>
               </td>
             </tr>
