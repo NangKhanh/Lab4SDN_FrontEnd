@@ -57,7 +57,7 @@ const ProductCard = () => {
         <Col md={4}>
           {products.images && products.images.length > 0 && (
             <div>
-              <img src={products.images[1].path} alt={products.name} style={{ maxWidth: '100%' }} />
+              <img src={products.images[0].path} alt={products.name} style={{ maxWidth: '200px' }} />
             </div>
           )}
         </Col>

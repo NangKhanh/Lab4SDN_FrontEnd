@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import './Register.css'; // Import file CSS tùy chỉnh
+import './Register.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -24,13 +24,24 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.post('http://localhost:9999/users', formData);
       console.log('Kết quả từ API:', response.data);
       alert('Register Successfully!!');
-      navigate('/')
-
+      
+      const myCart = { user: response.data.data['_id'] };
+      axios.post(`http://localhost:9999/carts`, myCart).then((cartResponse) => {
+        console.log(cartResponse);
+        console.log('Tạo cart thành công');
+        
+        localStorage.setItem("cartID", cartResponse.data.data['_id']);
+        
+        navigate('/');
+      }).catch((error) => {
+        console.error(error);
+      });
+  
     } catch (error) {
       console.error('Lỗi khi gọi API:', error);
     }
@@ -70,8 +81,8 @@ function Register() {
       </Form.Group>
 
       <Link to="/" variant="body2">
-          Bạn đã có tài khoản? Đăng nhập
-        </Link>
+        Bạn đã có tài khoản? Đăng nhập
+      </Link>
 
       <Button variant="primary" type="submit">
         Đăng ký

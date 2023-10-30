@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import './Login.css'; // Import file CSS tùy chỉnh
+import './Login.css'; 
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -28,11 +28,14 @@ function Login() {
       const response = await axios.post('http://localhost:9999/users/login', formData);
       const userData = response.data;
       console.log('Kết quả từ API:', response.data);
-      localStorage.clear();
       localStorage.setItem('userData', JSON.stringify(userData));
       alert('Login Successfully!!');
       navigate('/products')
+      const cart = localStorage.getItem('cartID');
+      localStorage.setItem('cartID', cart);
       console.log(JSON.parse(localStorage.getItem('userData')));
+
+
     } catch (error) {
       console.error('Lỗi khi gọi API:', error);
     }

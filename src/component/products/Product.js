@@ -2,10 +2,26 @@ import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import './ProductTable.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ProductTable() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+  const [cart, setCart] = useState(0);
+
+  const btnClickListCart = () => {
+    navigate('/mycart')
+  }
+
+  const addToCart = async (product) => {
+    console.log("product");
+    console.log(product);
+    const cartID = localStorage.getItem('cartID');
+    setCart(cart + 1);
+    axios.put(`http://localhost:9999/carts/add/${cartID}`, { products: product }).then((response) => {
+    });
+  }
+
 
   useEffect(() => {
     axios.get('http://localhost:9999/products')
@@ -20,7 +36,7 @@ function ProductTable() {
         <Link to="/addproduct">
           <button className="add-product-button">Add Product</button>
         </Link>
-        <button className="my-cart-button">My Cart</button>
+        <button className="my-cart-button" onClick={btnClickListCart}>My Cart</button>
       </div>
       <Table className="custom-table">
         <thead>
@@ -46,13 +62,13 @@ function ProductTable() {
               <td>{product.brand}</td>
               <td>
                 {product.images && product.images.length > 0 && (
-                    <img src={product.images[0].path} alt={product.name} style={{ maxWidth: '100%' }} />
+                  <img src={product.images[0].path} alt={product.name} style={{ maxWidth: '200px' }} />
                 )}
               </td>
               <td><Link to={`/product/${product._id}`}>
                 <button >View detail</button><br />
               </Link><br />
-                <button>Add to Cart</button>
+                <button onClick={() => addToCart(product)}>Add to Cart</button>
               </td>
             </tr>
           ))}
